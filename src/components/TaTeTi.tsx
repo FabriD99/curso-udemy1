@@ -1,27 +1,5 @@
-// Note: TaTeTi component
-// type Props = {};
-
 import { useState } from "react";
-
-const styles = {
-  celStyle: {
-    width: "100px",
-    height: "100px",
-    backgroundColor: "black",
-    color: "white",
-    fontFamily: "Doto",
-    padding: "0px",
-    fontSize: "5em",
-    fontWeight: 900,
-    border: "5px solid #e14848",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  rowStyle: {
-    padding: "10px",
-  },
-};
+import styles from "./TatetiStyles";
 
 function TaTeTi() {
   const [player1, setPlayer1] = useState(true);
@@ -35,7 +13,26 @@ function TaTeTi() {
   const [value8, setValue8] = useState("");
   const [value9, setValue9] = useState("");
 
-  let cartel = "";
+  const hayGanador =
+    (value1 === value2 && value2 === value3 && value1 !== "") ||
+    (value4 === value5 && value5 === value6 && value4 !== "") ||
+    (value7 === value8 && value8 === value9 && value7 !== "") ||
+    (value1 === value4 && value4 === value7 && value1 !== "") ||
+    (value2 === value5 && value5 === value8 && value2 !== "") ||
+    (value3 === value6 && value6 === value9 && value3 !== "") ||
+    (value1 === value5 && value5 === value9 && value1 !== "") ||
+    (value3 === value5 && value5 === value7 && value3 !== "");
+
+  const juegoTerminado =
+    value1 !== "" &&
+    value2 !== "" &&
+    value3 !== "" &&
+    value4 !== "" &&
+    value5 !== "" &&
+    value6 !== "" &&
+    value7 !== "" &&
+    value8 !== "" &&
+    value9 !== "";
 
   const handleClick1 = () => {
     if (player1) {
@@ -44,7 +41,6 @@ function TaTeTi() {
       setValue1("O");
     }
     setPlayer1(!player1);
-    console.log(value1);
   };
 
   const handleClick2 = () => {
@@ -54,7 +50,6 @@ function TaTeTi() {
       setValue2("O");
     }
     setPlayer1(!player1);
-    console.log(value2);
   };
 
   const handleClick3 = () => {
@@ -64,7 +59,6 @@ function TaTeTi() {
       setValue3("O");
     }
     setPlayer1(!player1);
-    console.log(value3);
   };
 
   const handleClick4 = () => {
@@ -75,7 +69,6 @@ function TaTeTi() {
     }
 
     setPlayer1(!player1);
-    console.log(value4);
   };
 
   const handleClick5 = () => {
@@ -85,7 +78,6 @@ function TaTeTi() {
       setValue5("O");
     }
     setPlayer1(!player1);
-    console.log(value5);
   };
 
   const handleClick6 = () => {
@@ -95,7 +87,6 @@ function TaTeTi() {
       setValue6("O");
     }
     setPlayer1(!player1);
-    console.log(value6);
   };
 
   const handleClick7 = () => {
@@ -105,7 +96,6 @@ function TaTeTi() {
       setValue7("O");
     }
     setPlayer1(!player1);
-    console.log(value7);
   };
 
   const handleClick8 = () => {
@@ -115,7 +105,6 @@ function TaTeTi() {
       setValue8("O");
     }
     setPlayer1(!player1);
-    console.log(value8);
   };
 
   const handleClick9 = () => {
@@ -125,7 +114,6 @@ function TaTeTi() {
       setValue9("O");
     }
     setPlayer1(!player1);
-    console.log(value9);
   };
 
   const clearAllValues = () => {
@@ -140,47 +128,23 @@ function TaTeTi() {
     setValue9("");
   };
 
-  if (
-    (value1 === value2 && value2 === value3 && value1 !== "") ||
-    (value4 === value5 && value5 === value6 && value4 !== "") ||
-    (value7 === value8 && value8 === value9 && value7 !== "") ||
-    (value1 === value4 && value4 === value7 && value1 !== "") ||
-    (value2 === value5 && value5 === value8 && value2 !== "") ||
-    (value3 === value6 && value6 === value9 && value3 !== "") ||
-    (value1 === value5 && value5 === value9 && value1 !== "") ||
-    (value3 === value5 && value5 === value7 && value3 !== "")
-  ) {
-    if (!player1) {
-      cartel = "Gana X";
-      console.log(`Gana el jugador X`);
-    } else {
-      cartel = "Gana O";
-      console.log(`Gana el jugador O`);
-    }
-    setTimeout(() => {
-      clearAllValues();
-    }, 3000);
-  } else if (
-    value1 !== "" &&
-    value2 !== "" &&
-    value3 !== "" &&
-    value4 !== "" &&
-    value5 !== "" &&
-    value6 !== "" &&
-    value7 !== "" &&
-    value8 !== "" &&
-    value9 !== ""
-  ) {
-    console.log("No hay ganador");
-    cartel = "Empate"; 
-    setTimeout(() => {
-      clearAllValues();
-    }, 3000);
-  }
+  const restartGame = () => {
+    setPlayer1(true);
+    clearAllValues();
+  };
+
+  const showCartel = juegoTerminado || hayGanador;
+  const cartel = hayGanador
+    ? !player1
+      ? "Gana X"
+      : "Gana O"
+    : juegoTerminado
+    ? "Empate"
+    : "";
 
   return (
     <div>
-      <h1>{cartel}</h1>
+      {showCartel && <h1>{cartel}</h1>}
       <div className="container text-center">
         <div className="row" style={styles.rowStyle}>
           <div className="col">
@@ -189,7 +153,9 @@ function TaTeTi() {
               onClick={handleClick1}
               style={styles.celStyle}
               type="button"
-              disabled={value1 !== ""}
+              disabled={
+                juegoTerminado || hayGanador || value1 !== "" || value1 !== ""
+              }
             >
               {value1}
             </button>
@@ -200,7 +166,7 @@ function TaTeTi() {
               onClick={handleClick2}
               style={styles.celStyle}
               type="button"
-              disabled={value2 !== ""}
+              disabled={juegoTerminado || hayGanador || value2 !== ""}
             >
               {value2}
             </button>
@@ -211,7 +177,7 @@ function TaTeTi() {
               onClick={handleClick3}
               style={styles.celStyle}
               type="button"
-              disabled={value3 !== ""}
+              disabled={juegoTerminado || hayGanador || value3 !== ""}
             >
               {value3}
             </button>
@@ -224,7 +190,7 @@ function TaTeTi() {
               onClick={handleClick4}
               style={styles.celStyle}
               type="button"
-              disabled={value4 !== ""}
+              disabled={juegoTerminado || hayGanador || value4 !== ""}
             >
               {value4}
             </button>
@@ -235,7 +201,7 @@ function TaTeTi() {
               onClick={handleClick5}
               style={styles.celStyle}
               type="button"
-              disabled={value5 !== ""}
+              disabled={juegoTerminado || hayGanador || value5 !== ""}
             >
               {value5}
             </button>
@@ -246,7 +212,7 @@ function TaTeTi() {
               onClick={handleClick6}
               style={styles.celStyle}
               type="button"
-              disabled={value6 !== ""}
+              disabled={juegoTerminado || hayGanador || value6 !== ""}
             >
               {value6}
             </button>
@@ -259,7 +225,7 @@ function TaTeTi() {
               onClick={handleClick7}
               style={styles.celStyle}
               type="button"
-              disabled={value7 !== ""}
+              disabled={juegoTerminado || hayGanador || value7 !== ""}
             >
               {value7}
             </button>
@@ -270,7 +236,7 @@ function TaTeTi() {
               onClick={handleClick8}
               style={styles.celStyle}
               type="button"
-              disabled={value8 !== ""}
+              disabled={juegoTerminado || hayGanador || value8 !== ""}
             >
               {value8}
             </button>
@@ -281,12 +247,20 @@ function TaTeTi() {
               onClick={handleClick9}
               style={styles.celStyle}
               type="button"
-              disabled={value9 !== ""}
+              disabled={juegoTerminado || hayGanador || value9 !== ""}
             >
               {value9}
             </button>
           </div>
         </div>
+        {showCartel && (
+          <button
+            style={{ height: "70px", width: "200px", margin: "30px" }}
+            onClick={restartGame}
+          >
+            Volver a Jugar
+          </button>
+        )}
       </div>
     </div>
   );
