@@ -1,11 +1,10 @@
 import "./App.css";
-import TaTeTi from "./components/TaTeTi";
+import Menu from "./components/Menu";
 
 function App() {
   return (
     <>
-      <h1>Ta Te Ti</h1>
-      <TaTeTi />
+      <Menu />
     </>
   );
 }

@@ -144,8 +144,12 @@ function TaTeTi() {
 
   return (
     <div>
+      <h1>Ta Te Ti</h1>
       {showCartel && <h1>{cartel}</h1>}
-      <div className="container text-center">
+      <div
+        className="container text-center"
+        style={{ marginTop: "50px", width: "400px" }}
+      >
         <div className="row" style={styles.rowStyle}>
           <div className="col">
             <button
