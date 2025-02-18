@@ -22,7 +22,7 @@ const styles = {
 
 function Menu() {
   const [showTateti, setShowTateTi] = useState(false);
-  const [showCalc, setShowCalc] = useState(false);
+  const [showCalc, setShowCalc] = useState(true);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLButtonElement;
